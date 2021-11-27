@@ -32,6 +32,8 @@ int *toutf(int *arg, size_t M) {
         utfs[counter] = parsed;
         counter++;
     }
+    utfs[counter] = -1;
+    counter++;
     
     if (counter < M) {
         utfs = (int *) realloc(utfs, (counter + 1) * sizeof(int));
@@ -77,4 +79,16 @@ char **tohex(int *quotient, size_t M) {
 
     }
     return hex; // MUST BE FREED
+}
+
+int main() {
+    int sentence[3] = {12345, 234567, 1000000};
+    char **result = tohex(sentence, 3);
+
+    for (int i = 0; i < 3; i++) {
+        printf("%s ", result[i]);
+    }
+
+    free(result); 
+    return 0;
 }
