@@ -1,8 +1,6 @@
 # ReadUnicode
 
 ### 读取中文及UTF-8字符的工具
-[![Language](https://img.shields.io/github/languages/top/kiwirafe/readunicode)](https://github.com/kiwirafe/readunicode)
-
 ReadUnicode是一个读取中文及UTF-8字符的两个函数库。
 
 ## 下载与安装
@@ -43,7 +41,7 @@ int main() {
         counter += 1;
     }
 
-    int *result = toutf(sentence, counter);
+    int *result = toutf(sentence, counter); //调用函数
     while (result[i] != -1) { //如果不是结束符-1
         printf("Unicode %d:\t %d\n", i, result[i]);
         i++;
@@ -67,11 +65,11 @@ char **tohex(int *quotient, size_t M);
 ```c
 #import "unicode.h"
 int main() {
-    int sentence[3] = {12345, 234567, 1000000};
-    char **result = tohex(sentence, 3);
+    int sentence[3] = {12345, 234567, 1000000}; //假设一个读取完文件的数组
+    char **result = tohex(sentence, 3); //调用函数
 
     for (int i = 0; i < 3; i++) {
-        printf("%s\n", result[i]);
+        printf("%s\n", result[i]); //打印每个Hex
     }
 
     free(result); 

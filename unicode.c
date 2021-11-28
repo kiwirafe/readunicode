@@ -11,7 +11,7 @@ int *toutf(int *arg, size_t M) {
         exit(-1);
     }
 
-    for (i = 0; i < M; i++) {
+    for (i = 0; i < M; i++) { //每个char做循环
         parsed = 0;
         
         if (arg[i] < 128) //当Unicode只有1个Byte的时候：00xxxxxx
@@ -49,6 +49,7 @@ int *toutf(int *arg, size_t M) {
 char **tohex(int *quotient, size_t M) {
     int remain, temp;
     int counter = 0, N = 10, j = 0, k = 0;
+    //Malloc M长度的指针和M*N长度的char
     char **hex = (char **) malloc(M * sizeof(char *) + M * N * sizeof(char));
     if (hex == NULL) {
         puts("Malloc Error!\n");
@@ -56,21 +57,22 @@ char **tohex(int *quotient, size_t M) {
     }
     char *ptr = (char *)(hex + M);
  
-    for (j = 0; j < M; j++) {
-        hex[j] = (ptr + N * j);
+    for (j = 0; j < M; j++) { //每个int做循环
+        hex[j] = (ptr + N * j); //把相应数量的char赋值给pointer
         counter = 0;
 
         while (quotient[j] != 0) {
-            remain = quotient[j] % 16;
-            if (remain < 10)
+            remain = quotient[j] % 16; //取余
+            if (remain < 10) //加入小于10
                 hex[j][counter++] = 48 + remain;
-            else
+            else //加入大于10
                 hex[j][counter++] = 55 + remain;
             
-            quotient[j] = quotient[j] / 16;
+            quotient[j] = quotient[j] / 16; //除以16
         }
         
-        for (k = 0; k < counter / 2; k++) { // Reverse String
+        //逆转数组，因为之前是把最小的赋值给数组最前端
+        for (k = 0; k < counter / 2; k++) { 
             temp = hex[j][k];
             hex[j][k] = hex[j][counter - 1 - k];
             hex[j][counter - 1 - k] = temp;
