@@ -2,6 +2,7 @@
 
 ### 读取中文及UTF-8字符的工具
 [![Language](https://img.shields.io/github/languages/top/kiwirafe/readunicode)](https://github.com/kiwirafe/readunicode)
+
 ReadUnicode是一个读取中文及UTF-8字符的两个函数库。
 
 ## 下载与安装
