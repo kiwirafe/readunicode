@@ -1,11 +1,12 @@
+```c
 #include <stdio.h>
 #include <stdlib.h>
 #include "unicode.h"
 
 int *toutf(int *arg, size_t M) {
     int i, parsed;
-    int counter = 0; //Counter用来计算有多少个字符
-    int *utfs = malloc(M * sizeof(int));
+    int counter = 0; 
+    int *utfs = malloc(M * sizeof(int)); //根据Unicode标准，
     if (utfs == NULL) {
         puts("Malloc Error!\n");
         exit(-1);
@@ -14,29 +15,29 @@ int *toutf(int *arg, size_t M) {
     for (i = 0; i < M; i++) {
         parsed = 0;
         
-        if (arg[i] < 128) //当Unicode只有1个Byte的时候：00xxxxxx
+        if (arg[i] < 128) // This is when it's one byte. 00000000
             parsed += arg[i];
-        else if (arg[i] >= 192 && arg[i] < 224) { //当Unicode有2个Byte的时候：11xxxxxx 10xxxxxx
-            parsed += (arg[i] - 192) * 64; //减去用来表示字符长度的11部分，并乘以2^6(后面有6个有效字节) @1
+        else if (arg[i] >= 192 && arg[i] < 224) { // This is when it's two bytes. 11000000 10000000
+            parsed += (arg[i] - 192) * 64; // Add the first byte.
             parsed += arg[++i] - 128;
-        } else if (arg[i] >= 224 && arg[i] < 240) { //当Unicode有3个Byte的时候：111xxxxx 10xxxxxx 10xxxxxx
-            parsed += (arg[i] - 224) * 4096; //减去用来表示字符长度的111部分，并乘以2^12(后面有12个有效字节) @2
-            parsed += (arg[++i] - 128) * 64; //同@1
+        } else if (arg[i] >= 224 && arg[i] < 240) { // This is when it's three bytes. 11100000 10000000 10000000
+            parsed += (arg[i] - 224) * 4096;
+            parsed += (arg[++i] - 128) * 64; 
             parsed += arg[++i] - 128;
-        } else if (arg[i] >= 240) { //当Unicode有4个Byte的时候：1111xxxx 10xxxxxx 10xxxxxx 10xxxxxx
-            parsed += (arg[i] - 240) * 262144; //减去用来表示字符长度的1111部分，并乘以2^18(后面有12个有效字节)
-            parsed += (arg[++i] - 128) * 4096; //同@2
-            parsed += (arg[++i] - 128) * 64; //同@1
+        } else if (arg[i] >= 240) { // This is when it's four bytes. 11110000 10000000 10000000 10000000
+            parsed += (arg[i] - 240) * 262144;
+            parsed += (arg[++i] - 128) * 4096;
+            parsed += (arg[++i] - 128) * 64;
             parsed += arg[++i] - 128;
         }
         utfs[counter] = parsed;
         counter++;
     }
-    utfs[counter] = -1; //用-1来表示结束
+    utfs[counter] = -1;
     counter++;
     
     if (counter < M) {
-        utfs = (int *) realloc(utfs, (counter + 1) * sizeof(int)); //重新Realloc成真正字符的长度，防止一开始Malloc过多
+        utfs = (int *) realloc(utfs, (counter + 1) * sizeof(int));
         if (utfs == NULL) {
             puts("Realloc Error!\n");
             exit(-1);
@@ -80,3 +81,16 @@ char **tohex(int *quotient, size_t M) {
     }
     return hex; // MUST BE FREED
 }
+
+int main() {
+    int sentence[3] = {12345, 234567, 1000000};
+    char **result = tohex(sentence, 3);
+
+    for (int i = 0; i < 3; i++) {
+        printf("%s ", result[i]);
+    }
+
+    free(result); 
+    return 0;
+}
+```
