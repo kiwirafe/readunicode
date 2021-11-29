@@ -1,84 +1,83 @@
 # ReadUnicode
 
-### 读取中文及UTF-8字符的工具
-ReadUnicode是一个读取中文及UTF-8字符的两个函数库。
+### A tool to read Chinese and UTF-8 characters
+ReadUnicode is a library of two functions for reading Chinese and UTF-8 characters.
 
-### [English Version of README](https://github.com/kiwirafe/readunicode/blob/master/README(Eng).md)
-
-## 下载与安装
-Github下载：
+## Download and install
+Github installation:
 ```sh
 git clone https://github.com/kiwirafe/readunicode.git
 ```
 
-### 版本v1.0.0
-  - 支持两个函数，`toutf()`和`tohex()`
+### Version v1.0.0
+  - Support two functions, `toutf()` and `tohex()`
 
-## 使用方法
-所有函数都在`"unicode.h"`里面，请在编译时加上`unicode.c`
+## Instructions
+All functions are in `"unicode.h"`, please include `unicode.c` when compiling
 
 ### `toutf()`
-从UTF-8字符转换为`int`(从一个文档里读出每个`char`并把它们转换成Unicode标准的`int`)
-#### 定义
+Convert from UTF-8 characters to `int`(Read each `char` from a file and convert them to Unicode standard `int`)
+
+#### Definition
 ```c
 int *toutf(int *arg, size_t M);
-//结果必须释放
+// The result must be freed
 ```
-#### 实战
-假设`example.txt`里面是`云台二十八将，孔门七十二贤`
+#### Reallife Example
+Assume that `example.txt` contains `云台二十八将，孔门七十二贤`
 ```c
 #import "unicode.h"
 int main() {
-    FILE *fp = fopen("example.txt", "r"); //打开example.txt
+    FILE *fp = fopen("example.txt", "r"); // Open example.txt
     if (fp == NULL) {
         puts("Error opening file!\n");
         exit(-1);
     }
-    int sentence[100]; //先分配100个空间给读取的char
+    int sentence[100];
     int c;
     int counter = 0, i = 0;
     
     while ((c = fgetc(fp)) != EOF){
-        sentence[counter] = c; //把读取的char录入sentence里面(c实际上是不完整的Unicode)
+        sentence[counter] = c; // Save the read char into the sentence varaible (c is actually incomplete Unicode character)
         counter += 1;
     }
 
-    int *result = toutf(sentence, counter); //调用函数
-    while (result[i] != -1) { //如果不是结束符-1
+    int *result = toutf(sentence, counter);
+    while (result[i] != -1) { //If not terminator -1
         printf("Unicode %d:\t %d\n", i, result[i]);
         i++;
     }
    
     free(result);
-    fclose(fp); 
+    fclose(fp);
     return 0;
 }
 ```
-结果：`20113 21488 20108 21313 20843 23558 65292 23380 38376 19971 21313 20108 36132`
+Result:`20113 21488 20108 21313 20843 23558 65292 23380 38376 19971 21313 20108 36132`
 
 ### `tohex()`
-从`int`转换为`hex`(Unicode标准的标准就是十六进制)
-#### 定义
+Convert from `int` to `hex` (the Unicode standard is hexadecimal)
+#### Definitions
 ```c
 char **tohex(int *quotient, size_t M);
-//结果必须释放
+// The result must be freed
 ```
-#### 实战
+#### Reallife Example
 ```c
 #import "unicode.h"
 int main() {
-    int sentence[3] = {12345, 234567, 1000000}; //假设一个读取完文件的数组
-    char **result = tohex(sentence, 3); //调用函数
+    int sentence[3] = {12345, 234567, 1000000}; //Assuming the numbers in an array after reading a file
+    char **result = tohex(sentence, 3);
 
     for (int i = 0; i < 3; i++) {
-        printf("%s\n", result[i]); //打印每个Hex
+        printf("%s\n", result[i]); //Print out every Hex string
     }
 
     free(result); 
     return 0;
 }
 ```
-结果：`3039 39447 F4240`
+Result: `3039 39447 F4240`
 
 ## MIT License
 Copyright (c) [2021] [Kiwirafe]
