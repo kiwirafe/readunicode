@@ -23,7 +23,7 @@ Convert from UTF-8 characters to `int`(Read each `char` from a file and convert 
 int *toutf(int *arg, size_t M);
 // The result must be freed
 ```
-#### Reallife Example
+#### Demo
 Assume that `example.txt` contains `云台二十八将，孔门七十二贤`
 ```c
 #import "unicode.h"
@@ -62,7 +62,7 @@ Convert from `int` to `hex` (the Unicode standard is hexadecimal)
 char **tohex(int *quotient, size_t M);
 // The result must be freed
 ```
-#### Reallife Example
+#### Demo
 ```c
 #import "unicode.h"
 int main() {

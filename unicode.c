@@ -29,13 +29,16 @@ int *toutf(int *arg, size_t M) {
             parsed += (arg[++i] - 128) * 64; //同@1
             parsed += arg[++i] - 128;
         }
+        if (parsed == 0)
+            break;
         utfs[counter] = parsed;
         counter++;
     }
-    utfs[counter] = -1; //用-1来表示结束
+
+    utfs[counter] = 0; //用0来表示结束
     counter++;
     
-    if (counter < M) {
+    if (counter + 1 < M) {
         utfs = (int *) realloc(utfs, (counter + 1) * sizeof(int)); //重新Realloc成真正字符的长度，防止一开始Malloc过多
         if (utfs == NULL) {
             puts("Realloc Error!\n");

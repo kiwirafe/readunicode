@@ -44,7 +44,7 @@ int main() {
     }
 
     int *result = toutf(sentence, counter); //调用函数
-    while (result[i] != -1) { //如果不是结束符-1
+    while (result[i] != 0) { //如果不是结束符0
         printf("Unicode %d:\t %d\n", i, result[i]);
         i++;
     }
