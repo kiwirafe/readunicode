@@ -3,7 +3,7 @@
 ### A tool to read Chinese and UTF-8 characters
 ReadUnicode is a library of two functions for reading Chinese and UTF-8 characters.
 
-## Download and install
+## Download and Installation
 Github installation:
 ```sh
 git clone https://github.com/kiwirafe/readunicode.git
