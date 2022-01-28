@@ -26,7 +26,7 @@ int *toutf(int *arg, size_t M);
 #### Demo
 Assume that `example.txt` contains `云台二十八将，孔门七十二贤`
 ```c
-#import "unicode.h"
+#include "unicode.h"
 int main() {
     FILE *fp = fopen("example.txt", "r"); // Open example.txt
     if (fp == NULL) {
@@ -64,7 +64,7 @@ char **tohex(int *quotient, size_t M);
 ```
 #### Demo
 ```c
-#import "unicode.h"
+#include "unicode.h"
 int main() {
     int sentence[3] = {12345, 234567, 1000000}; //Assuming the numbers in an array after reading a file
     char **result = tohex(sentence, 3);
